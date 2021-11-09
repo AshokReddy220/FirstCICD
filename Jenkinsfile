@@ -26,7 +26,7 @@ pipeline{
         // Stage3 : publish artifacts to nexus repository 
         stage ('pubslish to nexus'){
             steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'VinayDevOpsLab', classifier: '', file: 'target/VinayDevOpsLab-0.0.3-SNAPSHOT.war', type: 'war']], credentialsId: '6aa09355-958e-4571-a9c6-f5b7eddeac9f', groupId: 'com.vinaysdevopslab', nexusUrl: '10.0.1.150:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'VinaysDevOpsLab-SNAPSHOT', version: '0.0.3-SNAPSHOT'
+                nexusArtifactUploader artifacts: [[artifactId: 'VinayDevOpsLab', classifier: '', file: 'target/VinayDevOpsLab-0.0.4-SNAPSHOT.war', type: 'war']], credentialsId: '6aa09355-958e-4571-a9c6-f5b7eddeac9f', groupId: 'com.vinaysdevopslab', nexusUrl: '10.0.1.150:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'VinaysDevOpsLab-SNAPSHOT', version: '0.0.4-SNAPSHOT'
 
             }
         }
@@ -43,6 +43,25 @@ pipeline{
 
         //     }
         // }
+
+        stage ('Deploy'){
+            steps {
+                sshPublisher(publishers: 
+                [sshPublisherDesc(
+                configName: 'Ansible_Controller', 
+                transfers: 
+                [sshTransfer(
+                cleanRemote: false, 
+                excludes: '', 
+                execCommand: 'ansible-playbook /opt/playbooks/ -i /opt/playbooks/hosts', 
+                execTimeout: 120000, flatten: false, 
+                makeEmptyDirs: false, noDefaultExcludes: false, 
+                patternSeparator: '[, ]+', remoteDirectory: '', 
+                remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                
+
+            }
+        }
 
         
         
