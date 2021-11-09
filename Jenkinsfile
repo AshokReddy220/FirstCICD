@@ -53,7 +53,7 @@ pipeline{
                 [sshTransfer(
                 cleanRemote: false, 
                 excludes: '', 
-                execCommand: 'ansible-playbook /opt/playbooks/ -i /opt/playbooks/hosts', 
+                execCommand: 'ansible-playbook /opt/playbooks/downloadanddeploywar.yml -i /opt/playbooks/hosts', 
                 execTimeout: 120000, flatten: false, 
                 makeEmptyDirs: false, noDefaultExcludes: false, 
                 patternSeparator: '[, ]+', remoteDirectory: '', 
